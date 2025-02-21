@@ -1,0 +1,13 @@
+# test_app.py
+import unittest
+from app import app
+
+class TestApp(unittest.TestCase):
+    def test_hello(self):
+        client = app.test_client()
+        response = client.get('/')
+        self.assertEqual(response.data.decode(), 'Hello, CI/CD!')
+
+if __name__ == '__main__':
+    unittest.main()
+
