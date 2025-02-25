@@ -1,30 +1,20 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.8'  // 실행할 Docker 이미지
-        }
-    }
+    agent any
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-repo.git'
+                git 'https://github.com/ehson-ai/first-repository.git'  // 깃 저장소에서 코드 가져오기
             }
         }
         stage('Build') {
             steps {
-                sh 'python --version'
-                sh 'pip install -r requirements.txt'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'pytest tests/'
+                sh 'docker build -t myapp:latest .'  // Docker 이미지 빌드
             }
         }
         stage('Deploy') {
             steps {
-                sh 'docker build -t myapp:latest .'
-                sh 'docker run -d -p 8080:8080 myapp:latest'
+                sh 'docker-compose down'  // 기존 컨테이너 종료
+                sh 'docker-compose up -d'  // 새 컨테이너 실행
             }
         }
     }
