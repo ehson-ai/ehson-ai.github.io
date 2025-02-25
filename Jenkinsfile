@@ -10,6 +10,7 @@ pipeline {
             steps {
                 sh 'ls -l /home/git_test'  // Dockerfile이 있는지 확인
                 sh 'cd /home/git_test && docker build -t myapp:latest .'  // 지정된 작업 디렉토리에서 실행
+	        sh 'cd /home/git_test && docker-compose up -d --build'  // docker-compose
 		}
         }
         stage('Deploy') {
