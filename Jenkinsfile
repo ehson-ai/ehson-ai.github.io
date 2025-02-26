@@ -9,14 +9,21 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ls -l /home/git_test'  // Dockerfile이 있는지 확인
-                sh 'cd /home/git_test && docker build -t myapp:latest .'  // 지정된 작업 디렉토리에서 실행
-	        sh 'cd /home/git_test && docker-compose up -d --build'  // docker-compose
-		}
+                sh 'python -m pip install -r requirements.txt'
+                #sh 'cd /home/git_test && docker build -t myapp:latest .'  // 지정된 작업 디렉토리에서 실행
+                #sh 'cd /home/git_test && docker-compose up -d --build'  // docker-compose
+                }
+        }
+        stage('Test') {
+            steps {
+                sh 'python -m pytest tests/'
+            }
         }
         stage('Deploy') {
             steps {
-                sh 'docker-compose down'  // 기존 컨테이너 종료
-                sh 'docker-compose up -d'  // 새 컨테이너 실행
+                sh 'python deploy_script.py'
+                #sh 'docker-compose down'  // 기존 컨테이너 종료
+                #sh 'docker-compose up -d'  // 새 컨테이너 실행
             }
         }
     }
