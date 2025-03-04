@@ -8,8 +8,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'cp index.html /var/www/html/'
-                sh 'sudo systemctl restart nginx'
+                sh 'chmod +x build_script.sh'
+                sh './build_script.sh'
+                #sh 'cp index.html /var/www/html/'
+                #sh 'sudo systemctl restart nginx'
             }
         }
     }
