@@ -1,14 +1,23 @@
 pipeline {
     agent any
     stages {
-        stage('Git Clone') {
+        stage('Git Update') {
             steps {
-                git 'https://github.com/ehson-ai/first-repository.git'
+                script {
+                    if (fileExists('first-repository')) {
+                        dir('first-repository') {
+                            sh 'git reset --hard'
+                            sh 'git pull origin main'
+                        }
+                    } else {
+                        sh 'git clone https://github.com/ehson-ai/first-repository.git'
+                    }
+                }
             }
         }
         stage('Deploy') {
             steps {
-                sh 'cp index.html /var/www/html/'
+                sh 'cp first-repository/index.html /var/www/html/'
                 sh 'sudo systemctl restart nginx'
             }
         }
