@@ -22,8 +22,8 @@ pipeline {
                 
                 for (server in servers) {
                     sh """
-                    ssh ${server} 'cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/
-                    systemctl restart nginx'
+                    ssh root@${server} 'cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/ && systemctl restart nginx'
+
                     
                     #scp first-repository/index.html root@${server}:/var/www/html/  # 🔧 root 계정 사용
                     #ssh root@${server} 'systemctl restart nginx'  # 🔧 root 계정으로 직접 실행
