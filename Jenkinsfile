@@ -15,10 +15,19 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy to Servers') {
             steps {
-                sh 'cp first-repository/index.html /var/www/html/'
-                sh 'sudo systemctl restart nginx'
+                script {
+                def servers = ['8.220.246.38', '8.220.223.133']  // 배포할 서버 목록
+                
+                for (server in servers) {
+                    sh """
+                    scp first-repository/index.html root@${server}:/var/www/html/  # 🔧 root 계정 사용
+                    ssh root@${server} 'systemctl restart nginx'  # 🔧 root 계정으로 직접 실행
+                    """
+            
+                #sh 'cp first-repository/index.html /var/www/html/'
+                #sh 'sudo systemctl restart nginx'
             }
         }
     }
