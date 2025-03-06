@@ -4,9 +4,6 @@ pipeline {
         stage('Git Clone') {
             steps {
                 git 'https://github.com/ehson-ai/first-repository.git'
-                git fetch --all
-                git reset --hard origin/main
-                git pull origin main
             }
         }
         stage('Deploy') {
