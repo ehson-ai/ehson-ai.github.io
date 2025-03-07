@@ -19,22 +19,20 @@ pipeline {
             steps {
                 script {
                 def servers = ['8.220.246.38', '8.220.223.133']  // 배포할 서버 목록
-                
+                def sshUser = 'root'  // SSH 사용자 이름
                 for (server in servers) {
+                    sshagent(credentials: ['ecdd2210-808c-4d1c-b027-afb55047979b']) { 
                     sh """
+                    ssh -o StrictHostKeyChecking=no ${root}@${server} 'cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/systemctl restart nginx'
                     #ssh root@${server} 'cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/ && systemctl restart nginx'
-                    scp first-repository/index.html root@${server}:/var/www/html/
-                    ssh root@${server} 'systemctl restart nginx'
-                    
-                    #scp first-repository/index.html root@${server}:/var/www/html/  # 🔧 root 계정 사용
-                    #ssh root@${server} 'systemctl restart nginx'  # 🔧 root 계정으로 직접 실행
                     """
             
                 #sh 'cp first-repository/index.html /var/www/html/'
                 #sh 'sudo systemctl restart nginx'
             }
         }
-    }
+     }
+   }
   }
  }
 }
