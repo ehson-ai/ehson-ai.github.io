@@ -6,8 +6,9 @@ pipeline {
                 script {
                     if (fileExists('first-repository')) {
                         dir('first-repository') {
-                            sh 'git reset --hard'
-                            sh 'git pull origin main'
+                            sh 'git fetch --all'
+                            sh 'git reset --hard origin/main'  // 최신 버전으로 강제 동기화
+                            sh 'git pull origin main
                         }
                     } else {
                         sh 'git clone https://github.com/ehson-ai/first-repository.git'
