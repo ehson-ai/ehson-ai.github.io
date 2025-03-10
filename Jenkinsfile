@@ -1,7 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Git Update') {
+        stage('Clean Workspace') {
+    steps {
+        sh 'rm -rf *'  // 모든 파일 삭제 후 새롭게 클론
+             }
+        }
+    }        
+     stage('Git Update') {
             steps {
                 script {
                     if (fileExists('first-repository')) {
