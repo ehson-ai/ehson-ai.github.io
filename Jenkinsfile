@@ -24,18 +24,12 @@ pipeline {
                 sshagent(credentials: ['ecdd2210-808c-4d1c-b027-afb55047979b']) {
                 for (server in servers) {
 
-                    ssh -o StrictHostKeyChecking=no root@${server} << EOF
-                    cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/
-                    systemctl restart nginx
-                    EOF
-                    
-                    #sh """
-                    #ssh -o StrictHostKeyChecking=no ${root}@${server} 'cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/systemctl restart nginx'
-                    #ssh root@${server} 'cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/ && systemctl restart nginx'
-                    #"""
-            
-                #sh 'cp first-repository/index.html /var/www/html/'
-                #sh 'sudo systemctl restart nginx'
+                sh """
+                ssh -o StrictHostKeyChecking=no root@${server} << EOF
+                cp /var/lib/jenkins/workspace/simple_test/first-repository/index.html /var/www/html/
+                systemctl restart nginx
+                EOF
+                """
             }
         }
      }
