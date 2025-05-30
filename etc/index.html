@@ -1,0 +1,17 @@
+<SCRIPT LANGUAGE="JavaScript">
+function getStrNo(str) {
+if(str < 10) {
+return "0"+str;
+} else {
+return str; 
+}
+}
+
+var now=new Date();
+var aa = now.getYear()+''+getStrNo((now.getMonth()+1))+''+getStrNo(now.getDate());
+
+var url = "Popup.html";
+if ( aa<=20090211) {
+window.open(url, "pop", "width=200; height=200" );
+}
+</SCRIPT>
